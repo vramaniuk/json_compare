@@ -16,15 +16,14 @@ let data;
 //     });
 // };
 
-(async function(){
-    await MongoClient.connect(url, function (err, db) {
-        console.log("Connected correctly to server");
-        db.collection('movie').aggregate([{$project: {_id: 0, "name": 1}}]).toArray(function (err, docs) {
-            console.log("Found the following records");
-            console.log(docs);
+module.exports=(async function(){
+    await MongoClient.connect(url, function (err, db) {db.collection('movie').aggregate([{$project: {_id: 0, "name": 1}}])
+        .toArray(function (err, docs) {
+           console.log(docs);
         });
         db.close();
     });
+    return [{name: 'tutorials point'}, {name: 'Iron man'}];
 })().catch((e)=>console.log("Error ", e));
 
 
