@@ -1,27 +1,24 @@
 const MongoClient = require('mongodb').MongoClient;
 // , assert = require('assert');
-const ourQuery=require('./ourQuery');
+const ourQuery = require('./ourQuery');
 
 const url = 'mongodb://localhost:27017/truvoice_test';
 
- function  query(db){
-    return  db.collection('opportunities').aggregate(ourQuery);
+function query(db) {
+    setTimeout(() => db.close(), 8000);
+    return db.collection('opportunities').aggregate(ourQuery);
 }
+
 module.exports =
     MongoClient.connect(url)
-        .then(function(db){
+        .then(function (db) {
             return db;
         })
-        .then(function(db){
+        .then(function (db) {
             return query(db).toArray();
-        }).catch(function(e){
+        }).catch(function (e) {
         console.log(e);
     });
-
-
-
-
-
 
 
 // var MongoClient = require('mongodb').MongoClient,

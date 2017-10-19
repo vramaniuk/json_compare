@@ -18,7 +18,7 @@ module.exports=[
             }
         }
     },
-    {
+{
         $project: {
             "_id" : 1,
             "contacts.id" : 1,
@@ -223,25 +223,25 @@ module.exports=[
         }
     },
     {
-        "$lookup" : {
-            "from" : "clientCriteria",
-            let: { "cv": "$criteria_value"},
-            pipeline: [
-                {
-                    "$match" : {
-                        "versions.initiativeId" : ObjectId("58af4da0b310d92314627290")
-                    }
-                },
-                { $match:
+       "$lookup" : {
+           "from" : "clientCriteria",
+                let: { "cv": "$criteria_value"},
+                pipeline: [
+                   {
+       "$match" : {
+           "versions.initiativeId" : ObjectId("58af4da0b310d92314627290")
+       }
+   },
+                 { $match:
                     { $expr:
-                        { $eq: [ "$value",  "$$cv" ] }
+                            { $eq: [ "$value",  "$$cv" ] }
                     },
 
-                }
-            ],
-            "as" : "criteria"
-        }
-    },
+                 }
+              ],
+           "as" : "criteria"
+       }
+   },
     {
         "$group" : {
             "_id" : "$contacts.questions.answers.primary_answer_value",
