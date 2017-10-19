@@ -1,13 +1,15 @@
 'use strict';
 
 const assert = require('assert');
-const tasks = require('../task/mongoConnect.js');
+const resDoc = require('../task/mongoConnect.js');
+const validRes = require('../task/result');
 
 
-describe('mongoConnect', function() {
+describe('mongoConnect', function () {
 
-    it('object equality', function () {
-        assert.deepEqual([{name: 'tutorials point'}, {name: 'Iron man'}], tasks);
-
-    });
+    it('object equality', async function () {
+        let jValidResult = JSON.stringify(validRes);
+        let jValidDoc = await resDoc;
+        assert.deepEqual(jValidResult, jValidDoc);
+    }).timeout(5000);
 });

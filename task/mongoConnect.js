@@ -1,31 +1,47 @@
 const MongoClient = require('mongodb').MongoClient;
 // , assert = require('assert');
+const ourQuery=require('./ourQuery');
 
-// Connection URL
+const url = 'mongodb://localhost:27017/truvoice_test';
 
-const url = 'mongodb://localhost:27017/test';
-
-let data;
-
-// const findDocuments = function(db, callback) {
-//     const query=db.collection('movie').aggregate([{$project:{_id:0,"name" :1}}]);
-//     query.toArray(function(err, docs) {
-//         console.log("Found the following records");
-//         console.log(docs);
-//         callback(docs);
-//     });
-// };
-
-module.exports=(async function(){
-    await MongoClient.connect(url, function (err, db) {db.collection('movie').aggregate([{$project: {_id: 0, "name": 1}}])
-        .toArray(function (err, docs) {
-           console.log(docs);
-        });
-        db.close();
+ function  query(db){
+    return  db.collection('opportunities').aggregate(ourQuery);
+}
+module.exports =
+    MongoClient.connect(url)
+        .then(function(db){
+            return db;
+        })
+        .then(function(db){
+            return query(db).toArray();
+        }).catch(function(e){
+        console.log(e);
     });
-    return [{name: 'tutorials point'}, {name: 'Iron man'}];
-})().catch((e)=>console.log("Error ", e));
 
 
-// console.log(data);
+
+
+
+
+
+// var MongoClient = require('mongodb').MongoClient,
+//     test = require('assert');
+// MongoClient.connect('mongodb://localhost:27017/test', function (err, db) {
+//
+//     // Create a collection to hold our documents
+//     var collection = db.collection('movie');
+//
+//     // Insert a test document
+//     collection.aggregate([{$project: {_id: 0, "name": 1}}]).then(function (ids) {
+//
+//         // Retrieve all the documents in the collection
+//         collection.find().toArray().then(function (documents) {
+//             test.deepEqual([{name: 'tutorials point'}, {name: 'Iron man'}], documents[0].b);
+//             console.log(documents);
+//             db.close();
+//         });
+//     });
+// });
+
+
 
